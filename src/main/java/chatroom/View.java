@@ -152,7 +152,7 @@ public class View extends javax.swing.JFrame implements MessageHandler {
   /**
    * @param args the command line arguments
    */
-
+//hi this is a thing.
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.TextArea chatLog;
     private javax.swing.JButton login;
