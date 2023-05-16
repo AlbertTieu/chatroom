@@ -1,5 +1,6 @@
 package chatroom;
 import com.mrjaffesclass.apcs.messenger.*;
+import java.awt.TextField;
 /**
  * MVC Template
  * This is a template of an MVC framework used by APCS for the 
@@ -73,9 +74,15 @@ public class View extends javax.swing.JFrame implements MessageHandler {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        username.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         username.setEnabled(false);
         username.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
         username.setText("Username");
+        username.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameActionPerformed(evt);
+            }
+        });
         username.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 usernameKeyReleased(evt);
@@ -83,12 +90,14 @@ public class View extends javax.swing.JFrame implements MessageHandler {
         });
 
         chatLog.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
+        chatLog.setText("Chat log");
 
         messageInput.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
         messageInput.setMinimumSize(new java.awt.Dimension(69, 24));
         messageInput.setText("Input message");
 
         login.setActionCommand("Login");
+        login.setEnabled(false);
         login.setLabel("Login");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -124,8 +133,17 @@ public class View extends javax.swing.JFrame implements MessageHandler {
     }// </editor-fold>//GEN-END:initComponents
 
     private void usernameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usernameKeyReleased
-        // TODO add your handling code here:
+    String length = username.getText();
+    if (length.length() == 0) {
+            login.setEnabled(false);
+      } else {
+        login.setEnabled(true);
+    }
     }//GEN-LAST:event_usernameKeyReleased
+
+    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameActionPerformed
 
   /**
    * Handler for the up button for field 1
