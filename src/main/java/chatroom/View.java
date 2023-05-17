@@ -1,6 +1,8 @@
 package chatroom;
 import com.mrjaffesclass.apcs.messenger.*;
 import java.awt.TextField;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 /**
  * MVC Template
  * This is a template of an MVC framework used by APCS for the 
@@ -12,6 +14,7 @@ import java.awt.TextField;
 public class View extends javax.swing.JFrame implements MessageHandler {
 
   private final Messenger mvcMessaging;
+    private KeyListener l;
   
   /**
    * Creates a new view
@@ -75,7 +78,6 @@ public class View extends javax.swing.JFrame implements MessageHandler {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         username.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        username.setEnabled(false);
         username.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
         username.setText("Username");
         username.addActionListener(new java.awt.event.ActionListener() {
@@ -95,10 +97,20 @@ public class View extends javax.swing.JFrame implements MessageHandler {
         messageInput.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
         messageInput.setMinimumSize(new java.awt.Dimension(69, 24));
         messageInput.setText("Input message");
+        messageInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                messageInputKeyReleased(evt);
+            }
+        });
 
         login.setActionCommand("Login");
         login.setEnabled(false);
         login.setLabel("Login");
+        login.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -144,6 +156,21 @@ public class View extends javax.swing.JFrame implements MessageHandler {
     private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameActionPerformed
+
+    private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
+        mvcMessaging.notify("view:login", username.getText(), true);
+    }//GEN-LAST:event_loginActionPerformed
+
+    private void messageInputKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_messageInputKeyReleased
+        String length = messageInput.getText();
+        int len = length.length();
+        if (len == 0 || evt.getKeyCode() != KeyEvent.VK_ENTER) {
+            //nothing.
+        } else {
+            String Chat = username.getText() + ": " + length;
+            chatLog.append(Chat);
+        }
+    }//GEN-LAST:event_messageInputKeyReleased
 
   /**
    * Handler for the up button for field 1
