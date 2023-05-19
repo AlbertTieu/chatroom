@@ -1,8 +1,6 @@
 package chatroom;
 import com.mrjaffesclass.apcs.messenger.*;
-import java.awt.TextField;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 /**
  * MVC Template
  * This is a template of an MVC framework used by APCS for the 
@@ -14,7 +12,6 @@ import java.awt.event.KeyListener;
 public class View extends javax.swing.JFrame implements MessageHandler {
 
   private final Messenger mvcMessaging;
-    private KeyListener l;
   
   /**
    * Creates a new view
@@ -94,6 +91,7 @@ public class View extends javax.swing.JFrame implements MessageHandler {
         chatLog.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
         chatLog.setText("Chat log");
 
+        messageInput.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         messageInput.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
         messageInput.setMinimumSize(new java.awt.Dimension(69, 24));
         messageInput.setText("Input message");
@@ -168,7 +166,6 @@ public class View extends javax.swing.JFrame implements MessageHandler {
             //nothing.
         } else {
             String Chat = username.getText() + ": " + length;
-            chatLog.append(Chat);
         }
     }//GEN-LAST:event_messageInputKeyReleased
 
@@ -179,7 +176,6 @@ public class View extends javax.swing.JFrame implements MessageHandler {
   /**
    * @param args the command line arguments
    */
-//hi this is a thing.
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.TextArea chatLog;
     private javax.swing.JButton login;
