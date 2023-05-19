@@ -15,7 +15,7 @@ public class Model implements MessageHandler {
   // Model's data variables
   private int variable1;
   private int variable2;
-
+  private Chat[];
   /**
    * Model constructor: Create the data representation of the program
    * @param messages Messaging class instantiated by the Controller for 

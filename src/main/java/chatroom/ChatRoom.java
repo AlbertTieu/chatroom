@@ -79,11 +79,4 @@ public class ChatRoom implements MessageHandler {
     app.init();                         // ...and init it too
   }
   
-    /**
-     *
-     */
-    public class Chat {
-      //klklk
-    }
-  
 }
