@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
  * @version 1.0
  * 
  */
-public class View extends javax.swing.JFrame implements MessageHandler {
+public class View extends javax.swing.JFrame {
 
   private final Messenger mvcMessaging;
   
@@ -22,41 +22,11 @@ public class View extends javax.swing.JFrame implements MessageHandler {
     initComponents();           // Create and init the GUI components
   }
   
-  /**
-   * Initialize the model here and subscribe
-   * to any required messages
-   */
-  public void init() {
-    // Subscribe to messages here
-    mvcMessaging.subscribe("model:variable1Changed", this);
-    mvcMessaging.subscribe("model:variable2Changed", this);
-  }
-  
-  @Override
-  public void messageHandler(String messageName, Object messagePayload) {
-    if (messagePayload != null) {
-      System.out.println("MSG: received by view: "+messageName+" | "+messagePayload.toString());
-    } else {
-      System.out.println("MSG: received by view: "+messageName+" | No data sent");
-    }
-    if (messageName.equals("model:variable1Changed")) {
-//      jLabel8.setText(messagePayload.toString());
-    } else {
-//      jLabel10.setText(messagePayload.toString());      
-    }
-  }
 
-  /**
-   * Instantiate an object with the field number that was clicked (1 or 2) and
-   * the direction that the number should go (up or down)
-   * @param fieldNumber 1 or 2 for the field being modified
-   * @param direction this.UP (1) or this.DOWN (-1), constants defined above
-   * @return the HashMap payload to be sent with the message
-   */
-  private MessagePayload createPayload(int fieldNumber, int direction) {
-    MessagePayload payload = new MessagePayload(fieldNumber, direction);
-    return payload;
-  }
+  
+
+
+
 
   /**
    * This method is called from within the constructor to initialize the form.
@@ -165,7 +135,9 @@ public class View extends javax.swing.JFrame implements MessageHandler {
         if (len == 0 || evt.getKeyCode() != KeyEvent.VK_ENTER) {
             //nothing.
         } else {
-            String Chat = username.getText() + ": " + length;
+            Chat chat = new Chat();
+            chat.setUsername(username.getText());
+            chat.setMessage(messageInput.getText());
         }
     }//GEN-LAST:event_messageInputKeyReleased
 

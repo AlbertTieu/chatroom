@@ -1,5 +1,6 @@
 package chatroom;
 import com.mrjaffesclass.apcs.messenger.*;
+import java.io.IOException;
 
 /**
  * 
@@ -32,18 +33,18 @@ public class ChatRoom implements MessageHandler {
    *  controller:changeButton (sent by the Controller to notify the Model to change 
    *    the value of a Model variable
    */
-  public ChatRoom() {
+  public ChatRoom() throws IOException {
     // Create the local messaging class
     mvcMessaging = new Messenger();
 
     // Create the view and set it visible
     View view = new View(mvcMessaging);    // This creates our view
-    view.init();
+
     view.setVisible(true);
 
     // Create the model
     Model model = new Model(mvcMessaging);  // This creates our model
-    model.init();
+
   }
 
   /**
@@ -74,7 +75,7 @@ public class ChatRoom implements MessageHandler {
    *
    * @param args the command line arguments
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     ChatRoom app = new ChatRoom();  // Create our controller...
     app.init();                         // ...and init it too
   }

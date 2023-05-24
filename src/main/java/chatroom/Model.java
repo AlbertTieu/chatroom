@@ -1,13 +1,19 @@
 package chatroom;
 
+import com.google.auth.oauth2.GoogleCredentials;
 import com.mrjaffesclass.apcs.messenger.*;
+import com.google.firebase.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 
 /**
  * The model represents the data that the app uses.
  * @author Roger Jaffe
  * @version 1.0
  */
-public class Model implements MessageHandler {
+public class Model {
 
   // Messaging system for the MVC
   private final Messenger mvcMessaging;
@@ -15,51 +21,30 @@ public class Model implements MessageHandler {
   // Model's data variables
   private int variable1;
   private int variable2;
-  private Chat[];
+  private Chat[] chatLog;
+  private String username;
+  private boolean loggedIn;
   /**
    * Model constructor: Create the data representation of the program
    * @param messages Messaging class instantiated by the Controller for 
    *   local messages between Model, View, and controller
    */
-  public Model(Messenger messages) {
+  public Model(Messenger messages) throws FileNotFoundException, IOException {
     mvcMessaging = messages;
-  }
-  
-  /**
-   * Initialize the model here and subscribe to any required messages
-   */
-  public void init() {
-    mvcMessaging.subscribe("view:changeButton", this);
-    setVariable1(10);
-    setVariable2(-10);
-  }
-  
-  @Override
-  public void messageHandler(String messageName, Object messagePayload) {
-    if (messagePayload != null) {
-      System.out.println("MSG: received by model: "+messageName+" | "+messagePayload.toString());
-    } else {
-      System.out.println("MSG: received by model: "+messageName+" | No data sent");
-    }
-    MessagePayload payload = (MessagePayload)messagePayload;
-    int field = payload.getField();
-    int direction = payload.getDirection();
     
-    if (direction == Constants.UP) {
-      if (field == 1) {
-        setVariable1(getVariable1()+Constants.FIELD_1_INCREMENT);
-      } else {
-        setVariable2(getVariable2()+Constants.FIELD_2_INCREMENT);
-      }
-    } else {
-      if (field == 1) {
-        setVariable1(getVariable1()-Constants.FIELD_1_INCREMENT);
-      } else {
-        setVariable2(getVariable2()-Constants.FIELD_2_INCREMENT);
-      }      
-    }
-  }
+FileInputStream serviceAccount =
+  new FileInputStream("path/to/serviceAccountKey.json");
 
+FirebaseOptions options = new FirebaseOptions.Builder()
+  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+  .setDatabaseUrl("https://chatroom-c7710-default-rtdb.firebaseio.com")
+  .build();
+
+FirebaseApp.initializeApp(options);
+
+
+  }
+  
   /**
    * Getter function for variable 1
    * @return Value of variable1
@@ -98,6 +83,27 @@ public class Model implements MessageHandler {
     // message to let other modules know that the variable value
     // was changed
     mvcMessaging.notify("model:variable2Changed", variable2, true);
+  }
+  
+  public void initFirebase() throws FileNotFoundException, IOException{
+      
+FileInputStream serviceAccount =
+      new FileInputStream("./chatroom.json");
+    
+    FirebaseOptions options = new FirebaseOptions.Builder()
+      .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+      .setDatabaseUrl("https://chatroom-c7710-default-rtdb.firebaseio.com")
+      .build();
+     try {
+       if (FirebaseApp.getInstance(FirebaseApp.DEFAULT_APP_NAME) != null) {
+         return;
+        }
+     } catch (IllegalStateException e) {
+     
+     }
+
+    FirebaseApp.initializeApp(options);
+    
   }
 
 }
