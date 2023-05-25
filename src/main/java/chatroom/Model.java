@@ -3,6 +3,8 @@ package chatroom;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.mrjaffesclass.apcs.messenger.*;
 import com.google.firebase.*;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,6 +20,34 @@ public class Model {
   // Messaging system for the MVC
   private final Messenger mvcMessaging;
 
+  /**
+   * Initialize the model here and subscribe to any required messages
+   */
+  public void init() {
+    mvcMessaging.subscribe("view:sendChatItem", (MessageHandler) this);
+    setVariable1(10);
+    setVariable2(-10);
+  }
+  
+//  @Override
+  public void messageHandler(String messageName, Object messagePayload) {
+      if (messageName.equals("view:sendChatItem")) {
+  Chat newChat = (Chat)messagePayload;
+  final FirebaseDatabase database = FirebaseDatabase.getInstance();
+  DatabaseReference ref = database.getReference("chatlog-csa").push();
+  ref.setValue(newChat, null);
+}
+
+    //if (messagePayload != null) {
+    //  System.out.println("MSG: received by model: "+messageName+" | "+messagePayload.toString());
+    //} else {
+    //  System.out.println("MSG: received by model: "+messageName+" | No data sent");
+    //}
+    //MessagePayload payload = (MessagePayload)messagePayload;
+    //int field = payload.getField();
+    //int direction = payload.getDirection();
+  }
+  
   // Model's data variables
   private int variable1;
   private int variable2;
@@ -33,14 +63,24 @@ public class Model {
     mvcMessaging = messages;
     
 FileInputStream serviceAccount =
-  new FileInputStream("path/to/serviceAccountKey.json");
+  new FileInputStream("./chatroom.json");
 
 FirebaseOptions options = new FirebaseOptions.Builder()
   .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-  .setDatabaseUrl("https://chatroom-c7710-default-rtdb.firebaseio.com")
+  .setDatabaseUrl("https://chatroom-c7710-default-rtdb.firebaseio.com/")
   .build();
 
 FirebaseApp.initializeApp(options);
+
+    try {
+      initFirebase();    
+    }
+    catch (FileNotFoundException e) {
+      System.out.println("Firebase configuration file not found");
+    }
+    catch (IOException e) {
+      System.out.println("I/O Exception when authenticating");
+    }
 
 
   }
@@ -92,8 +132,9 @@ FileInputStream serviceAccount =
     
     FirebaseOptions options = new FirebaseOptions.Builder()
       .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-      .setDatabaseUrl("https://chatroom-c7710-default-rtdb.firebaseio.com")
+      .setDatabaseUrl("https://chatroom-c7710-default-rtdb.firebaseio.com/")
       .build();
+    
      try {
        if (FirebaseApp.getInstance(FirebaseApp.DEFAULT_APP_NAME) != null) {
          return;

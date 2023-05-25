@@ -22,6 +22,13 @@ public class View extends javax.swing.JFrame {
     initComponents();           // Create and init the GUI components
   }
   
+  /**
+   * Instantiate an object with the field number that was clicked (1 or 2) and
+   * the direction that the number should go (up or down)
+   * @param fieldNumber 1 or 2 for the field being modified
+   * @param direction this.UP (1) or this.DOWN (-1), constants defined above
+   * @return the HashMap payload to be sent with the message
+   */
 
   
 
@@ -138,6 +145,7 @@ public class View extends javax.swing.JFrame {
             Chat chat = new Chat();
             chat.setUsername(username.getText());
             chat.setMessage(messageInput.getText());
+            mvcMessaging.notify("view:sendChatItem", chat, true);
         }
     }//GEN-LAST:event_messageInputKeyReleased
 
