@@ -15,7 +15,7 @@ import java.io.IOException;
  * @author Roger Jaffe
  * @version 1.0
  */
-public class Model {
+public class Model implements MessageHandler{
 
   // Messaging system for the MVC
   private final Messenger mvcMessaging;
@@ -24,12 +24,12 @@ public class Model {
    * Initialize the model here and subscribe to any required messages
    */
   public void init() {
-    mvcMessaging.subscribe("view:sendChatItem", (MessageHandler) this);
+    mvcMessaging.subscribe("view:sendChatItem", this);
     setVariable1(10);
     setVariable2(-10);
   }
   
-//  @Override
+  @Override
   public void messageHandler(String messageName, Object messagePayload) {
       if (messageName.equals("view:sendChatItem")) {
   Chat newChat = (Chat)messagePayload;
