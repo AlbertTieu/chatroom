@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
  * @version 1.0
  * 
  */
-public class View extends javax.swing.JFrame implements MessageHandler {
+public class View extends javax.swing.JFrame {
 
   private final Messenger mvcMessaging;
   
@@ -163,8 +163,5 @@ public class View extends javax.swing.JFrame implements MessageHandler {
     private java.awt.TextField username;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void messageHandler(String messageName, Object messagePayload) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+
 }
